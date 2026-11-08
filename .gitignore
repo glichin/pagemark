@@ -226,3 +226,6 @@ tests/fixtures/*.pdf
 .mcp.json
 plan.md
 test.pdf
+
+# Local assistant instructions (kept on disk, not tracked)
+CLAUDE.md
