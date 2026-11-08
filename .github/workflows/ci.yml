@@ -18,7 +18,7 @@ jobs:
       - uses: astral-sh/setup-uv@v10.2.0
         with:
           enable-cache: true
-      - run: uv sync --extra cli
+      - run: uv sync --locked --extra cli
       - name: ruff check
         run: uv run python -m ruff check src/ tests/
       - name: ruff format
@@ -44,10 +44,29 @@ jobs:
         with:
           enable-cache: true
           python-version: ${{ matrix.python-version }}
-      - run: uv sync --extra cli
+      - run: uv sync --locked --extra cli
       # Unit tests need no network and no GPU; integration tests stay opt-in.
       - name: pytest
         run: uv run python -m pytest -q -m "not integration"
+
+  # The lockfile pins recent versions, so the floors in pyproject.toml are
+  # otherwise never exercised. Install pagemark with the oldest versions its
+  # ranges allow, then the test tools (installed second so they cannot pull
+  # a dependency like pillow above its floor), and run the suite.
+  lowest-deps:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+          python-version: "3.10"
+      - run: uv venv
+      - run: uv pip install --resolution lowest-direct ".[cli]"
+      - run: uv pip install pytest pytest-asyncio fpdf2
+      - run: uv pip list
+      - name: pytest
+        run: .venv/bin/python -m pytest -q -m "not integration"
 
   build:
     runs-on: ubuntu-latest
