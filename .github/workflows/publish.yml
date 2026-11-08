@@ -3,7 +3,7 @@ name: Publish
 # Publishes to PyPI via Trusted Publishing - no API token is stored in this
 # repo. Register the publisher once at
 # https://pypi.org/manage/account/publishing/ with:
-#   owner: uts58   repo: pagemark   workflow: publish.yml   environment: pypi
+#   owner: glichin   repo: pagemark   workflow: publish.yml   environment: pypi
 on:
   push:
     tags: ["v*"]

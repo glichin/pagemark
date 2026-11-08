@@ -2,7 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/pagemark)](https://pypi.org/project/pagemark/)
 [![Python](https://img.shields.io/pypi/pyversions/pagemark)](https://pypi.org/project/pagemark/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/uts58/pagemark/blob/main/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/glichin/pagemark/blob/main/LICENSE)
 
 pagemark converts PDFs to Markdown with vision-language models.
 

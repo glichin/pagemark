@@ -41,9 +41,9 @@ all = ["pagemark[cli,eval]"]
 pagemark = "pagemark.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/uts58/pagemark"
-Repository = "https://github.com/uts58/pagemark"
-Issues = "https://github.com/uts58/pagemark/issues"
+Homepage = "https://github.com/glichin/pagemark"
+Repository = "https://github.com/glichin/pagemark"
+Issues = "https://github.com/glichin/pagemark/issues"
 
 [tool.hatch.version]
 path = "src/pagemark/__init__.py"

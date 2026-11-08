@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-07
+
+### Changed
+
+- Repository moved to the `glichin` GitHub organization; project URLs updated.
+
+## [0.1.1] - 2026-10-05
+
+### Added
+
+- README instructions for installing with uv.
+
 ## [0.1.0] - 2026-10-04
 
 Initial release.
@@ -43,5 +55,7 @@ Initial release.
 - Optional CLI (`pagemark[cli]`) with `convert` and `doctor` commands.
 - `py.typed` marker; the package type-checks under mypy strict.
 
-[Unreleased]: https://github.com/uts58/pagemark/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/uts58/pagemark/releases/tag/v0.1.0
+[Unreleased]: https://github.com/glichin/pagemark/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/glichin/pagemark/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/glichin/pagemark/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/glichin/pagemark/releases/tag/v0.1.0
