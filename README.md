@@ -27,6 +27,7 @@ that page instead of aborting the whole conversion.
 ```bash
 pip install pagemark            # library only
 pip install "pagemark[cli]"     # with CLI
+pip install "pagemark[mcp]"     # with the MCP server
 ```
 
 With [uv](https://docs.astral.sh/uv/):
@@ -132,6 +133,70 @@ pagemark doctor --base-url http://localhost:11434/v1 --model qwen3-vl:8b
 
 `doctor` checks whether the endpoint is reachable, whether the model is present,
 and where the API key came from.
+
+### MCP server
+
+`pagemark[mcp]` adds an [MCP](https://modelcontextprotocol.io) server, so agents
+such as Claude Code, Claude Desktop, and Cursor can call pagemark as a tool and
+see each page's confidence and warnings instead of silently trusting the text.
+It runs over stdio and is started with `pagemark-mcp` (or `pagemark mcp` if the
+CLI extra is installed too).
+
+The endpoint, model, and key are fixed when the server starts, so the key never
+passes through the agent:
+
+| flag | env var | |
+| --- | --- | --- |
+| `--base-url` | `PAGEMARK_BASE_URL` | required |
+| `--model` | `PAGEMARK_MODEL` | default model; `convert_pdf` can override it |
+| `--api-key` | `PAGEMARK_API_KEY`, then `OPENAI_API_KEY` | prefer the env vars |
+| `--root` (repeatable) | `PAGEMARK_ROOTS` (path-separator list) | folders the server may read and write; default is the working directory |
+
+Claude Code:
+
+```bash
+claude mcp add pagemark     --env PAGEMARK_BASE_URL=http://localhost:11434/v1     --env PAGEMARK_MODEL=qwen3-vl:8b     --env PAGEMARK_API_KEY=unused     -- uvx --from "pagemark[mcp]" pagemark-mcp --root ~/Documents
+```
+
+Claude Desktop (`claude_desktop_config.json`):
+
+```json
+{
+  "mcpServers": {
+    "pagemark": {
+      "command": "uvx",
+      "args": ["--from", "pagemark[mcp]", "pagemark-mcp", "--root", "/Users/me/Documents"],
+      "env": {
+        "PAGEMARK_BASE_URL": "http://localhost:11434/v1",
+        "PAGEMARK_MODEL": "qwen3-vl:8b",
+        "PAGEMARK_API_KEY": "unused"
+      }
+    }
+  }
+}
+```
+
+Desktop clients often launch servers from a directory you didn't choose, so
+pass `--root` explicitly there. Local servers that ignore the key still need
+some value, because pagemark refuses to start without one.
+
+Tools:
+
+| tool | what it does |
+| --- | --- |
+| `convert_pdf` | starts a conversion in the background and returns a `job_id` right away |
+| `job_status` | progress (`pages_done`/`pages_total`), then the result: low-confidence pages first, a per-page summary, token usage, and the Markdown |
+| `cancel_job` | cancels the running job |
+| `pdf_info` | page sizes, text layer, and image count, without calling the model |
+| `doctor` | checks the endpoint is reachable and serves the default model |
+
+The server runs **one conversion at a time**. While a job is running,
+`convert_pdf` and `pdf_info` are refused with an error naming the running job;
+`job_status`, `cancel_job`, and `doctor` keep working. The job and its result
+live in memory until the next `convert_pdf` replaces them, so a restarted
+server has forgotten them and the agent just converts again. Markdown larger
+than 100,000 characters (`--max-inline-chars`), or any result with
+`output_path` set, is written to disk and `job_status` returns the path instead.
 
 ## How it works
 

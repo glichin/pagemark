@@ -62,7 +62,7 @@ jobs:
           enable-cache: true
           python-version: "3.10"
       - run: uv venv
-      - run: uv pip install --resolution lowest-direct ".[cli]"
+      - run: uv pip install --resolution lowest-direct ".[cli,mcp]"
       - run: uv pip install pytest pytest-asyncio fpdf2
       - run: uv pip list
       - name: pytest
@@ -83,6 +83,6 @@ jobs:
       - name: test the sdist
         run: |
           uv venv /tmp/sdist-check
-          VIRTUAL_ENV=/tmp/sdist-check uv pip install "$(echo dist/*.tar.gz)[cli]" pytest pytest-asyncio fpdf2
+          VIRTUAL_ENV=/tmp/sdist-check uv pip install "$(echo dist/*.tar.gz)[cli,mcp]" pytest pytest-asyncio fpdf2
           tar -xzf dist/*.tar.gz -C /tmp
           cd /tmp/pagemark-*/ && /tmp/sdist-check/bin/python -m pytest -q -m "not integration"

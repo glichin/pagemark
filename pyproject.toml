@@ -35,10 +35,12 @@ dependencies = [
 [project.optional-dependencies]
 cli = ["typer>=0.9", "rich>=13"]
 eval = ["rapidfuzz>=3", "datasets>=2"]
-all = ["pagemark[cli,eval]"]
+all = ["pagemark[cli,eval,mcp]"]
+mcp = ["fastmcp>=4.1"]
 
 [project.scripts]
 pagemark = "pagemark.cli:app"
+pagemark-mcp = "pagemark.mcp_server:main"
 
 [project.urls]
 Homepage = "https://github.com/glichin/pagemark"
@@ -64,6 +66,8 @@ dev = [
     # mirrors the cli extra so mypy can type-check cli.py on a bare `uv sync`
     "typer>=0.9",
     "rich>=13",
+    # mirrors the mcp extra so mypy and the tests can import mcp_server.py
+    "fastmcp>=4.1",
 ]
 
 [tool.ruff]

@@ -139,6 +139,42 @@ def doctor(
         raise typer.Exit(1) from e
 
 
+@app.command()
+def mcp(
+    base_url: str = typer.Option(
+        None, "--base-url", "-b", help="OpenAI-compatible API base URL [PAGEMARK_BASE_URL]"
+    ),
+    model: str = typer.Option(None, "--model", "-m", help="Default model [PAGEMARK_MODEL]"),
+    api_key: str = typer.Option(
+        None, "--api-key", "-k", help="API key [PAGEMARK_API_KEY, then OPENAI_API_KEY]"
+    ),
+    root: list[str] = typer.Option(
+        None, "--root", help="Allowed directory, repeatable [PAGEMARK_ROOTS, default: cwd]"
+    ),
+    max_inline_chars: int = typer.Option(
+        None, "--max-inline-chars", help="Larger results are written to disk"
+    ),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable debug logging"),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress output below ERROR"),
+) -> None:
+    """Run the MCP server over stdio (requires the [mcp] extra)."""
+    from pagemark import mcp_server
+
+    mcp_server.configure_logging(verbose, quiet)
+    try:
+        config = mcp_server.make_config(
+            base_url=base_url,
+            model=model,
+            api_key=api_key,
+            roots=root,
+            max_inline_chars=max_inline_chars,
+        )
+    except ValueError as e:
+        console.print(f"[red]{e}[/red]")
+        raise typer.Exit(1) from e
+    mcp_server.serve(config)
+
+
 def _configure_logging(verbose: bool, quiet: bool) -> None:
     level = logging.WARNING
     if verbose:

@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- MCP server (`pagemark[mcp]`, built on fastmcp) so agents can call pagemark as
+  a tool. Start it with `pagemark-mcp` or `pagemark mcp`; it speaks stdio.
+  Tools: `convert_pdf`, `job_status`, `cancel_job`, `pdf_info`, `doctor`.
+- Conversions run as a single in-memory background job: `convert_pdf` returns
+  a job id, `job_status` reports progress and then the result with
+  low-confidence pages listed first. A second conversion is refused while one
+  is running.
+- The endpoint, model, and API key are set at launch only (flags or
+  `PAGEMARK_*` env vars), and file access is limited to `--root` folders.
+
 ## [0.1.2] - 2026-11-07
 
 ### Changed
