@@ -1,0 +1,22 @@
+version: 2
+updates:
+  # Python dependencies from pyproject.toml + uv.lock. lockfile-only keeps the
+  # floors in pyproject.toml untouched: they are deliberate (the lowest-deps CI
+  # job tests them) and decide what users can install alongside pagemark.
+  - package-ecosystem: "uv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    versioning-strategy: "lockfile-only"
+    groups:
+      python-deps:
+        patterns: ["*"]
+
+  # Action versions in .github/workflows/.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      actions:
+        patterns: ["*"]
