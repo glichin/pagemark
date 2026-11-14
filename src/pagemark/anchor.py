@@ -67,7 +67,7 @@ def _extract_image_objects(page: pdfium.PdfPage) -> list[str]:
                 except Exception:
                     lines.append("[image]")
     except Exception:
-        pass
+        logger.debug("Failed to enumerate page objects for the anchor", exc_info=True)
     return lines
 
 
