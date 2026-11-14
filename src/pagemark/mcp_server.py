@@ -425,7 +425,9 @@ async def _convert(
         chat_model = config.chat_model
         model_name = model_id or getattr(chat_model, "model_name", None) or "custom"
     else:
-        assert config.base_url is not None and model_id is not None
+        if config.base_url is None or model_id is None:
+            # unreachable: ServerConfig and convert_pdf validate both up front
+            raise RuntimeError("job started without a base_url or model")
         http_client = httpx.AsyncClient(timeout=httpx.Timeout(600.0, connect=10.0))
         chat_model = build_chat_model(
             model_id,
