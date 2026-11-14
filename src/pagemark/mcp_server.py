@@ -562,25 +562,33 @@ def _inspect_pdf(pdf_path: Path) -> PdfInfo:
     try:
         infos: list[PageInfo] = []
         for i in range(len(pdf)):
+            # Close children before the document; pypdfium2 warns otherwise.
             page = pdf[i]
             try:
-                text: str = page.get_textpage().get_text_range().strip()
-            except Exception:
-                text = ""
-            try:
-                images = sum(1 for obj in page.get_objects() if obj.type == _IMAGE_OBJ_TYPE)
-            except Exception:
-                images = 0
-            infos.append(
-                PageInfo(
-                    page=i + 1,
-                    width_pt=round(page.get_width(), 1),
-                    height_pt=round(page.get_height(), 1),
-                    has_text_layer=bool(text),
-                    text_chars=len(text),
-                    image_count=images,
+                try:
+                    textpage = page.get_textpage()
+                    try:
+                        text: str = textpage.get_text_range().strip()
+                    finally:
+                        textpage.close()
+                except Exception:
+                    text = ""
+                try:
+                    images = sum(1 for obj in page.get_objects() if obj.type == _IMAGE_OBJ_TYPE)
+                except Exception:
+                    images = 0
+                infos.append(
+                    PageInfo(
+                        page=i + 1,
+                        width_pt=round(page.get_width(), 1),
+                        height_pt=round(page.get_height(), 1),
+                        has_text_layer=bool(text),
+                        text_chars=len(text),
+                        image_count=images,
+                    )
                 )
-            )
+            finally:
+                page.close()
         return PdfInfo(path=str(pdf_path), page_count=len(infos), pages=infos)
     finally:
         pdf.close()

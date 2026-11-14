@@ -79,9 +79,7 @@ async def test_lists_tools(root: Path) -> None:
 
 async def test_convert_returns_job_then_result(root: Path) -> None:
     # Echo the text layer so the coverage guardrail scores the page as trustworthy.
-    pdf = open_pdf(root / "simple.pdf")
-    faithful = build_anchor(pdf, 0)
-    pdf.close()
+    faithful = build_anchor(open_pdf(root / "simple.pdf"), 0)
     server = build_server(_config(root, FakeListChatModel(responses=[faithful])))
     async with Client(server) as client:
         started = await _call(client, "convert_pdf", path="simple.pdf")
