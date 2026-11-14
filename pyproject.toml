@@ -71,8 +71,12 @@ target-version = "py310"
 line-length = 99
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF", "S"]
 ignore = ["B008"]
+
+[tool.ruff.lint.per-file-ignores]
+# pytest uses bare asserts
+"tests/**" = ["S101"]
 
 [tool.mypy]
 # Type-check with the dev group or the cli extra, not --all-extras: the eval

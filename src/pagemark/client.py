@@ -86,7 +86,8 @@ class Pagemark:
             return self._chat_model, model_id
         if model is None:
             raise ValueError("model is required")
-        assert self._base_url is not None
+        if self._base_url is None:  # unreachable: __init__ requires one of the two
+            raise RuntimeError("Pagemark has neither base_url nor chat_model")
         return build_chat_model(
             model, base_url=self._base_url, api_key=self._api_key, max_tokens=max_tokens
         ), model
