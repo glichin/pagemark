@@ -35,13 +35,16 @@ With [uv](https://docs.astral.sh/uv/):
 ```bash
 uv add pagemark                 # add to your project
 uv add "pagemark[cli]"          # with CLI
+uv add "pagemark[mcp]"          # with the MCP server
 
 uv tool install "pagemark[cli]" # standalone CLI, no project needed
 uvx --from "pagemark[cli]" pagemark doctor --help  # run it without installing
+uvx --from "pagemark[mcp]" pagemark-mcp --help     # MCP server, same idea
 ```
 
-The `--from` is needed for the `uvx` form: plain `uvx pagemark` installs the
-package without the `cli` extra, and the CLI exits telling you to add it.
+The `--from` is needed for the `uvx` forms: plain `uvx pagemark` installs the
+package without the `cli` or `mcp` extra, and the command exits telling you
+which extra to add.
 
 ## Quick start
 
@@ -155,7 +158,11 @@ passes through the agent:
 Claude Code:
 
 ```bash
-claude mcp add pagemark     --env PAGEMARK_BASE_URL=http://localhost:11434/v1     --env PAGEMARK_MODEL=qwen3-vl:8b     --env PAGEMARK_API_KEY=unused     -- uvx --from "pagemark[mcp]" pagemark-mcp --root ~/Documents
+claude mcp add pagemark \
+    --env PAGEMARK_BASE_URL=http://localhost:11434/v1 \
+    --env PAGEMARK_MODEL=qwen3-vl:8b \
+    --env PAGEMARK_API_KEY=unused \
+    -- uvx --from "pagemark[mcp]" pagemark-mcp --root ~/Documents
 ```
 
 Claude Desktop (`claude_desktop_config.json`):
@@ -258,6 +265,7 @@ consumers can filter by quality.
 
 ## License
 
-MIT. Runtime dependencies are permissively licensed - mostly MIT/Apache-2.0/BSD,
+MIT. Runtime dependencies, including the `cli` and `mcp` extras, are
+permissively licensed - mostly MIT/Apache-2.0/BSD,
 with a few under MPL-2.0 (certifi, orjson) and PSF-2.0 (typing-extensions). No
 GPL/LGPL/AGPL dependencies in the tree.
