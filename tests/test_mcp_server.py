@@ -157,8 +157,19 @@ async def test_low_confidence_pages_listed(root: Path) -> None:
     assert "fell back to text layer" in low["warnings"]
 
 
-@pytest.mark.parametrize("bad", ["../outside.pdf", "/etc/passwd", "C:/Windows/win.ini"])
-async def test_rejects_paths_outside_roots(root: Path, bad: str) -> None:
+@pytest.mark.parametrize(
+    "make_bad",
+    [
+        pytest.param(lambda root: "../outside.pdf", id="relative-traversal"),
+        # Built at runtime so the path is absolute on every OS: a literal like
+        # "C:/x" is a *relative* path on POSIX and would resolve inside the root.
+        pytest.param(lambda root: str(root.parent / "outside.pdf"), id="absolute-outside"),
+        # Same string prefix as the root, but a different directory.
+        pytest.param(lambda root: f"{root}-evil/x.pdf", id="sibling-prefix"),
+    ],
+)
+async def test_rejects_paths_outside_roots(root: Path, make_bad: Any) -> None:
+    bad: str = make_bad(root)
     server = build_server(_config(root, FakeListChatModel(responses=[GOOD_PAGE])))
     async with Client(server) as client:
         with pytest.raises(ToolError, match="outside the allowed roots"):
