@@ -18,7 +18,7 @@ that page instead of aborting the whole conversion.
 
 ## Prerequisites
 
-- Python 3.10+
+- Python 3.12+
 - An OpenAI-compatible endpoint serving a vision-language model
   (Ollama, vLLM, LM Studio, any hosted provider, etc.)
 
