@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import Any
 
 from pydantic import BaseModel, Field, PrivateAttr
 
 
-class BlockType(str, Enum):
+class BlockType(StrEnum):
     HEADING = "heading"
     PARAGRAPH = "paragraph"
     TABLE = "table"
@@ -19,7 +19,7 @@ class BlockType(str, Enum):
     FOOTNOTE = "footnote"
 
 
-class PageSource(str, Enum):
+class PageSource(StrEnum):
     VLM = "vlm"
     TEXT_LAYER = "text_layer"
 

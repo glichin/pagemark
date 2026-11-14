@@ -26,7 +26,7 @@ import time
 import uuid
 from collections.abc import Sequence
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import StrEnum
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
@@ -84,7 +84,7 @@ class ServerConfig:
 # --------------------------------------------------------------------------- results
 
 
-class JobState(str, Enum):
+class JobState(StrEnum):
     RUNNING = "running"
     DONE = "done"
     FAILED = "failed"

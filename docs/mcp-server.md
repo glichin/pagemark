@@ -14,7 +14,7 @@ Ship a Model Context Protocol (MCP) server so agents such as Claude Code, Claude
 
 ### Packaging
 
-- New optional extra: `pagemark[mcp]`, depending on the standalone `fastmcp` package (Apache-2.0, so the license constraint is met). The floor is `fastmcp>=4.1`: 4.2 needs Python 3.11, and 4.1.x still supports 3.10.
+- New optional extra: `pagemark[mcp]`, depending on the standalone `fastmcp` package (Apache-2.0, so the license constraint is met). The floor is `fastmcp>=4.1`, the oldest release the server is tested against (the `lowest-deps` CI job).
 - New module `src/pagemark/mcp_server.py`, built on `fastmcp.FastMCP`.
 - Entry point: a `pagemark mcp` subcommand in `cli.py`, plus a `pagemark-mcp` console script so the server can run without the `cli` extra.
 - Transport: stdio only in v1. Streamable HTTP can come later.

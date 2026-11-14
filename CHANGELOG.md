@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Removed
+
+- Support for Python 3.10 and 3.11. pagemark now requires Python 3.12 or newer.
+  3.10 is past end of life, and the security fixes for several dependencies
+  (pillow 13, filelock, dnspython) are only released for 3.11+.
+
+### Changed
+
+- `BlockType`, `PageSource`, and the guardrail `CheckName` are now `StrEnum`s,
+  so `str()` and f-strings give the value (`"vlm"`) rather than the member name
+  (`"PageSource.VLM"`). Equality with strings and JSON output are unchanged.
+- Dependency lock refreshed with security fixes: pillow 13.0.0, urllib3 2.8.0,
+  filelock 4.2.10, dnspython 2.9.2.
+
 ### Added
 
 - MCP server (`pagemark[mcp]`, built on fastmcp) so agents can call pagemark as
