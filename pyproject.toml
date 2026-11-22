@@ -45,12 +45,13 @@ pagemark-mcp = "pagemark.mcp_server:main"
 Homepage = "https://github.com/glichin/pagemark"
 Repository = "https://github.com/glichin/pagemark"
 Issues = "https://github.com/glichin/pagemark/issues"
+Changelog = "https://github.com/glichin/pagemark/releases"
 
 [tool.hatch.version]
 path = "src/pagemark/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-only-include = ["src", "tests", "README.md", "CHANGELOG.md", "LICENSE"]
+only-include = ["src", "tests", "README.md", "LICENSE"]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/pagemark"]
