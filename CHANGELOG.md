@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2026-11-22
+
+### Changed
+
+- Dependency lock refreshed: langchain-openai 1.8.2, typer 0.29.2, fastmcp
+  4.2.1, plus dev/eval tooling (ruff, pytest-asyncio, fpdf2, rapidfuzz).
+  Dependency floors are unchanged.
+
+### Removed
+
+- The `docs/` folder. The MCP server is documented in the README.
+
 ## [0.2.0] - 2026-11-14
 
 ### Added
@@ -83,7 +95,8 @@ Initial release.
 - Optional CLI (`pagemark[cli]`) with `convert` and `doctor` commands.
 - `py.typed` marker; the package type-checks under mypy strict.
 
-[Unreleased]: https://github.com/glichin/pagemark/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/glichin/pagemark/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/glichin/pagemark/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/glichin/pagemark/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/glichin/pagemark/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/glichin/pagemark/compare/v0.1.0...v0.1.1
